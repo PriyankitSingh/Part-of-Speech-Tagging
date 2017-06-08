@@ -1,4 +1,4 @@
-function [ confusion ] = testmodel( filename, prior, transmat, obsmat )
+function [ confusion ] = testmodel( filename, prior, transmat, obsmat, words )
 %TESTMODEL Tests the model against an input file.
 %   Test the model against a file input
 
@@ -29,6 +29,8 @@ while ischar(line) % read through test file.
         sentence(index, 2) = str(1,2);
         % test the sentence against the model and update the confusion matrix.
         display(sentence); % placeholder
+        pos = predictpos(sentence, prior, transmat, obsmat, words)
+        
         sentence = {};
         index = index + 1;
         line = fgetl(fid);

@@ -1,23 +1,21 @@
-function [ outarray, words, data ] = datamapping( sentence, words, data )
+function [ outarray ] = datamapping( sentence, words )
 %DATAMAPPING Turns input data into a format that can be read by HMM
-%   Detailed explanation goes here
-sentencearr = strsplit(sentence);
+%   Returns the sentence as an array. Unseen words are returned as 1 (.)
+
 outarray = [];
-length(words)
-for i=1:length(sentencearr)
-    currword = sentencearr(i);
+global noun;
+
+for i=1:size(sentence, 1)
+    currword = sentence(i, 1);
     indexword = find(strcmp([words(:)], currword)); % find word index from sentences
-    % handle unseen word test. use 1 for unseen
+    
+    % handle unseen word test. use NN for unseen (assume is first noun)
     if(length(indexword) == 0)
-        words = [words; currword];
-        indexword = find(strcmp([words(:)], currword));
-        % add this as an observation
-        newdata = {currword, 'NN'};
-        data = [data; newdata];
+        display(currword);
+        indexword = find(strcmp([words(:)], noun));
     end
     
     outarray = [outarray, indexword];
 end
-length(words)
 end
 
