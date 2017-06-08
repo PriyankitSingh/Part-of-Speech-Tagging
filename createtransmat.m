@@ -10,11 +10,13 @@ prev = data(1,2);
 isfirst = 1; % ignore the first words because they are prior
 
 for i=2:wordcount
+    curr = data(i, 2);
     if(isfirst == 1) % ignore the first words because they are prior
         isfirst = 0;
+        prev = curr;
         continue;
     end
-    curr = data(i, 2);
+    
     if(strcmp(curr, '.'))
         isfirst = 1; % next is first when . is encountered
     end
