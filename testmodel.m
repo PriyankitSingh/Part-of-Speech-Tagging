@@ -20,6 +20,7 @@ while ischar(line) % read through test file.
     str = strsplit(line, '\t');
     
     if(strcmp(line, '')) % handle empty line
+        %display('empty line');
         line = fgetl(fid);
         continue
     end
@@ -28,14 +29,14 @@ while ischar(line) % read through test file.
         sentence(index, 1) = str(1,1);
         sentence(index, 2) = str(1,2);
         % test the sentence against the model and update the confusion matrix.
-        display(sentence); % placeholder
-        pos = predictpos(sentence, prior, transmat, obsmat, words)
+        pos = predictpos(sentence, prior, transmat, obsmat, words);
+        writetofile(outfile, pos);
         
         sentence = {};
-        index = index + 1;
+        index = 1;
         line = fgetl(fid);
-        %continue;
-        break
+        continue;
+        %break
     end
     sentence(index, 1) = str(1,1);
     sentence(index, 2) = str(1,2);
@@ -45,4 +46,3 @@ end
 fclose(fid);
 fclose(outfile);
 end
-

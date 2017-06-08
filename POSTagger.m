@@ -54,8 +54,12 @@ fclose(fid);
 display('data read finished');
 
 display('starting training the data');
+
 % find the number of states and calculate observ probability
+global states;
 states = unique(data(:, 2));
+states2 = transpose(states);
+return;
 
 transmat = createtransmat(data, states);
 transmat = mk_stochastic(transmat); % transition matrix
@@ -81,14 +85,12 @@ obsmat = mk_stochastic(obsmat);
 [prior] = getprior(pr, states);
 prior = mk_stochastic(prior);
 
-% viterbi for most likely path
-display('displaying most likely state sequence')
-%B = multinomial_prob(outarray, obsmat);
-%[path] = viterbi_path(prior2, transmat, B);
-%posseq = pathtostates(path, states, sentence)
+display('model created, starting tests on the model');
 [abcd] = testmodel('posdata_test.txt', prior, transmat, obsmat, words);
 
-
+display('collecting stats from tests');
+confusion = getstats('posdata_test.txt', states);
+csvwrite('confusion.dat',confusion);
 
 %[LL, prior2, transmat2, obsmat2] = dhmm_em(countmat, prior, transmat, obsmat, 'max_iter', 5);
 

@@ -7,11 +7,15 @@ global noun;
 
 for i=1:size(sentence, 1)
     currword = sentence(i, 1);
+    if(length(sentence) == 1)
+        %display('empty word');
+        continue;
+    end
+    
     indexword = find(strcmp([words(:)], currword)); % find word index from sentences
     
     % handle unseen word test. use NN for unseen (assume is first noun)
     if(length(indexword) == 0)
-        display(currword);
         indexword = find(strcmp([words(:)], noun));
     end
     

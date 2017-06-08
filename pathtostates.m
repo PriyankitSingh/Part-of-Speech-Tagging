@@ -3,21 +3,18 @@ function [ pos ] = pathtostates( path, states, sentence )
 %   Detailed explanation goes here
 
 pos = cell(length(path), 2);
-data = strsplit(sentence);
 
 for i=1:length(path)
     path(i) = lower(path(i));
     index = path(i);
     postag = states(index);
-    pos(i, 1) = data(i);
+    pos(i, 1) = sentence(i, 1);
     % handle unseen words. assume noun for now
-    if(strcmp(postag, '.') && ~(strcmp(data(i), '.')) )
-        display('unseen');
+    if(strcmp(postag, '.') && ~(strcmp(sentence(i, 1), '.')) )
         pos(i, 2) = {'NN'};
         continue;
     end
     if(length(postag) == 0)
-        display('unseen');
         pos(i, 2) = 'NN';
         continue;
     end
